@@ -1,4 +1,10 @@
 const CACHE_NAME = 'melplay-cache-v2'
+const registrationUrl = new URL(self.registration.scope)
+const scopePath = registrationUrl.pathname.endsWith('/')
+  ? registrationUrl.pathname
+  : `${registrationUrl.pathname}/`
+const AUTH_PATH_PREFIXES = ['__/auth', '__/firebase', 'firebase-auth-sw.js']
+
 const OFFLINE_URLS = [
   self.registration.scope,
   `${self.registration.scope}index.html`,
@@ -38,8 +44,26 @@ self.addEventListener('fetch', (event) => {
   }
 
   const requestURL = new URL(event.request.url)
+  const requestPath = requestURL.pathname
 
   if (requestURL.origin !== self.location.origin) {
+    return
+  }
+
+  const shouldBypassCache = AUTH_PATH_PREFIXES.some((prefix) => {
+    const scopedPrefix = `${scopePath}${prefix}`
+    if (requestPath.startsWith(scopedPrefix)) {
+      return true
+    }
+
+    if (scopePath !== '/' && requestPath.startsWith(`/${prefix}`)) {
+      return true
+    }
+
+    return false
+  })
+
+  if (shouldBypassCache) {
     return
   }
 

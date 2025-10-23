@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   type User,
   onAuthStateChanged,
+  getRedirectResult,
   signInWithPopup,
   signInWithRedirect,
   signOut,
@@ -95,7 +96,7 @@ export function useAuth() {
   }, [auth, hasValidConfig])
 
   const handleAuthError = useCallback((authError: unknown) => {
-    const fallback = 'Не удалось авторизоваться через Google.'
+    const fallback = 'Unable to complete Google sign-in.'
     if (authError instanceof Error) {
       setError(authError.message || fallback)
     } else {
@@ -103,6 +104,37 @@ export function useAuth() {
     }
     setStatus('error')
   }, [])
+
+  useEffect(() => {
+    if (!auth || !hasValidConfig) {
+      return
+    }
+
+    getRedirectResult(auth)
+      .then((result) => {
+        const nextUser = result?.user
+
+        if (!nextUser) {
+          return
+        }
+
+        setUser({
+          uid: nextUser.uid,
+          displayName: nextUser.displayName,
+          photoURL: nextUser.photoURL,
+          email: nextUser.email,
+        })
+        setStatus('ready')
+        setError(null)
+      })
+      .catch((authError) => {
+        const code = (authError as { code?: string })?.code ?? ''
+        if (code === 'auth/no-auth-event') {
+          return
+        }
+        handleAuthError(authError)
+      })
+  }, [auth, handleAuthError, hasValidConfig])
 
   const signIn = useCallback(async () => {
     if (!auth || !googleProvider || !hasValidConfig) {
@@ -123,7 +155,10 @@ export function useAuth() {
     } catch (authError) {
       const code = (authError as { code?: string })?.code ?? ''
 
-      if (!forcedRedirect && code.startsWith('auth/popup')) {
+      if (
+        !forcedRedirect &&
+        (code.startsWith('auth/popup') || code === 'auth/network-request-failed')
+      ) {
         try {
           await signInWithRedirect(auth, googleProvider)
           setError(null)
