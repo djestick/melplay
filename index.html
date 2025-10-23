@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>melplay</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js'
+      import { getAnalytics } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js'
+
+      const firebaseConfig = {
+        apiKey: 'AIzaSyAzbZJDsLX1wo6nW7t55Pxgu4WL3R9tvhw',
+        authDomain: 'lumpo1.firebaseapp.com',
+        databaseURL: 'https://lumpo1-default-rtdb.firebaseio.com',
+        projectId: 'lumpo1',
+        storageBucket: 'lumpo1.appspot.com',
+        messagingSenderId: '964713129480',
+        appId: '1:964713129480:web:2246804b67928a62ac93bd',
+        measurementId: 'G-HGYNGJ9V15',
+      }
+
+      const app = initializeApp(firebaseConfig)
+      getAnalytics(app)
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+.platform {
+  --shadow-scale: 1;
+  --shadow-opacity: 0.9;
+  --top-radius: 72% 72% 64% 64% / 60% 60% 80% 80%;
+  --top-scale: 1;
+  --top-shift: 0px;
+  --sprite-shift: 0px;
+  position: relative;
+  width: min(430px, 88vw);
+  aspect-ratio: 430 / 204;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateZ(0);
+  transition: filter 160ms cubic-bezier(0.16, 0.86, 0.25, 1);
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.platform__body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.platform__top {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.platform__top {
+  top: 18%;
+  width: 100%;
+  height: 56%;
+  border-radius: var(--top-radius);
+  transform: translate3d(-50%, var(--top-shift), 0) scale(var(--top-scale));
+  transition: transform 160ms cubic-bezier(0.16, 0.86, 0.25, 1),
+    border-radius 160ms cubic-bezier(0.16, 0.86, 0.25, 1);
+  background: radial-gradient(
+      28.3% 25.49% at 50% 50%,
+      rgba(0, 0, 0, 0.455) 0%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    linear-gradient(126.62deg, #434d8b 19.87%, #121425 76.79%);
+  box-shadow: inset 0 22px 28px rgba(3, 4, 8, 0.42),
+    inset 0 -14px 22px rgba(25, 23, 45, 0.52);
+  z-index: 2;
+}
+
+.platform__shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -20%;
+  transform: translateX(-50%) scaleX(var(--shadow-scale));
+  width: 124%;
+  height: 40%;
+  border-radius: 60% 60% 100% 100% / 58% 58% 100% 100%;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(24, 20, 51, 0.6) 0%,
+    rgba(8, 7, 18, 0) 100%
+  );
+  filter: blur(6px);
+  opacity: var(--shadow-opacity);
+  transition: transform 160ms cubic-bezier(0.16, 0.86, 0.25, 1),
+    opacity 160ms cubic-bezier(0.16, 0.86, 0.25, 1);
+}
+
+.platform__sprite {
+  position: absolute;
+  left: 50%;
+  bottom: 48%;
+  transform: translate3d(-50%, var(--sprite-shift), 0);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+  transition: transform 160ms cubic-bezier(0.16, 0.86, 0.25, 1);
+}
+
+.platform__sprite img {
+  width: min(54vw, 210px);
+  max-height: 420px;
+  object-fit: contain;
+  filter: drop-shadow(0 34px 36px rgba(9, 10, 18, 0.72));
+}
+
+.platform:focus {
+  outline: none;
+}
+
+.platform:focus-visible {
+  outline: 2px dashed rgba(128, 162, 255, 0.8);
+  outline-offset: 6px;
+}
+
+.platform--pressed {
+  --shadow-scale: 0.62;
+  --shadow-opacity: 0.58;
+  --top-radius: 50%;
+  --top-scale: 1.04;
+  --top-shift: 44px;
+  --sprite-shift: 44px;
+  cursor: grabbing;
+}

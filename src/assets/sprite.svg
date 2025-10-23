@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="320" viewBox="0 0 160 320" fill="none">
+  <defs>
+    <linearGradient id="bodyGradient" x1="80" y1="80" x2="80" y2="260" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22355F"/>
+      <stop offset="1" stop-color="#0C101F"/>
+    </linearGradient>
+    <linearGradient id="highlightGradient" x1="70" y1="120" x2="110" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#57FF6F" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#2AB04F" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="80" cy="45" rx="38" ry="42" fill="#d2c7b2"/>
+  <rect x="62" y="82" width="36" height="26" rx="12" fill="#d2c7b2"/>
+  <path d="M48 100C58 80 102 80 112 100L136 204C140 220 130 236 114 240L46 240C30 236 20 220 24 204L48 100Z" fill="url(#bodyGradient)"/>
+  <path d="M80 132C104 134 116 158 116 176C116 206 96 232 80 232C64 232 44 206 44 176C44 158 56 134 80 132Z" fill="url(#highlightGradient)" opacity="0.6"/>
+  <rect x="36" y="232" width="28" height="80" rx="12" fill="#15182A"/>
+  <rect x="96" y="232" width="28" height="80" rx="12" fill="#15182A"/>
+  <ellipse cx="50" cy="308" rx="26" ry="12" fill="#0b0f1b"/>
+  <ellipse cx="110" cy="308" rx="26" ry="12" fill="#0b0f1b"/>
+</svg>
