@@ -1,4 +1,5 @@
 interface ImportMetaEnv {
+  readonly BASE_URL: string
   readonly VITE_FIREBASE_API_KEY?: string
   readonly VITE_FIREBASE_AUTH_DOMAIN?: string
   readonly VITE_FIREBASE_PROJECT_ID?: string
@@ -11,4 +12,3 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
-

@@ -1,0 +1,32 @@
+{
+  "id": "/melplay/",
+  "name": "Melplay",
+  "short_name": "Melplay",
+  "description": "Тапай, фарми очки и сохраняй прогресс с Firebase.",
+  "start_url": "/melplay/",
+  "scope": "/melplay/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f111d",
+  "theme_color": "#0f111d",
+  "icons": [
+    {
+      "src": "./icons/melplay-icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/melplay-icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

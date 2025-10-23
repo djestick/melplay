@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title>Melplay Icon</title>
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#5a6bf1" />
+      <stop offset="100%" stop-color="#1b2241" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#8ddcff" />
+      <stop offset="100%" stop-color="#3fb2ff" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="116" fill="url(#bgGradient)" />
+  <g transform="translate(102 120)">
+    <path
+      d="M128 272c-70.4 0-128-57.6-128-128S57.6 16 128 16c39.2 0 75.2 18 98 48V0h72v352h-72v-128c-22.8 30-58.8 48-98 48Z"
+      fill="#0f111d"
+      opacity="0.18"
+    />
+    <path
+      d="M128 244c-55.9 0-101.4-45.5-101.4-101.4S72.1 41.2 128 41.2c36.1 0 69.1 19.4 86.8 49.8l4 6.8h70.2v58.4h-45.8c0.6 4.4 1 9 1 13.6 0 55.9-45.5 101.4-101.2 101.4Z"
+      fill="url(#accentGradient)"
+    />
+    <path
+      d="M128 208c-36.4 0-66-29.6-66-66s29.6-66 66-66c36.1 0 65.6 29.6 65.6 66 0 36.4-29.5 66-65.6 66Z"
+      fill="#0f111d"
+      opacity="0.22"
+    />
+    <circle cx="128" cy="142" r="44" fill="#f7fbff" />
+  </g>
+</svg>

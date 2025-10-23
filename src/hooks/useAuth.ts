@@ -14,9 +14,44 @@ export type AppUser = Pick<User, 'uid' | 'displayName' | 'photoURL' | 'email'>
 
 const previewUser: AppUser = {
   uid: 'preview-user',
-  displayName: 'Святослав',
+  displayName: 'Demo user',
   photoURL: null,
   email: null,
+}
+
+const isStandaloneDisplay = () => {
+  if (typeof window === 'undefined') {
+    return false
+  }
+
+  return (
+    window.matchMedia?.('(display-mode: standalone)')?.matches === true ||
+    window.matchMedia?.('(display-mode: fullscreen)')?.matches === true ||
+    (navigator as Navigator & { standalone?: boolean }).standalone === true
+  )
+}
+
+const isIOSDevice = () => {
+  if (typeof navigator === 'undefined') {
+    return false
+  }
+
+  const ua = navigator.userAgent.toLowerCase()
+  const platform =
+    (navigator as Navigator & { userAgentData?: { platform?: string } }).userAgentData?.platform ??
+    ''
+
+  return /iphone|ipad|ipod/.test(ua) || platform.toLowerCase().includes('ios')
+}
+
+const prefersRedirectAuth = () => {
+  if (typeof window === 'undefined') {
+    return false
+  }
+
+  const coarsePointer = window.matchMedia?.('(pointer: coarse)')?.matches === true
+
+  return isStandaloneDisplay() || isIOSDevice() || coarsePointer
 }
 
 export function useAuth() {
@@ -59,6 +94,16 @@ export function useAuth() {
     return () => unsubscribe()
   }, [auth, hasValidConfig])
 
+  const handleAuthError = useCallback((authError: unknown) => {
+    const fallback = 'Не удалось авторизоваться через Google.'
+    if (authError instanceof Error) {
+      setError(authError.message || fallback)
+    } else {
+      setError(fallback)
+    }
+    setStatus('error')
+  }, [])
+
   const signIn = useCallback(async () => {
     if (!auth || !googleProvider || !hasValidConfig) {
       setStatus('mock')
@@ -66,25 +111,32 @@ export function useAuth() {
       return
     }
 
-    try {
-      const prefersRedirect = window.matchMedia('(pointer: coarse)').matches
+    const forcedRedirect = prefersRedirectAuth()
 
-      if (prefersRedirect) {
+    try {
+      if (forcedRedirect) {
         await signInWithRedirect(auth, googleProvider)
       } else {
         await signInWithPopup(auth, googleProvider)
       }
-
       setError(null)
     } catch (authError) {
-      const message =
-        authError instanceof Error
-          ? authError.message
-          : 'Не удалось выполнить вход через Google.'
-      setError(message)
-      setStatus('error')
+      const code = (authError as { code?: string })?.code ?? ''
+
+      if (!forcedRedirect && code.startsWith('auth/popup')) {
+        try {
+          await signInWithRedirect(auth, googleProvider)
+          setError(null)
+          return
+        } catch (redirectError) {
+          handleAuthError(redirectError)
+          return
+        }
+      }
+
+      handleAuthError(authError)
     }
-  }, [auth, googleProvider, hasValidConfig])
+  }, [auth, googleProvider, hasValidConfig, handleAuthError])
 
   const signOutUser = useCallback(async () => {
     if (!auth || !hasValidConfig) {
@@ -96,13 +148,9 @@ export function useAuth() {
     try {
       await signOut(auth)
     } catch (authError) {
-      const message =
-        authError instanceof Error
-          ? authError.message
-          : 'Не удалось выполнить выход из аккаунта.'
-      setError(message)
+      handleAuthError(authError)
     }
-  }, [auth, hasValidConfig])
+  }, [auth, handleAuthError, hasValidConfig])
 
   const helpers = useMemo(
     () => ({
@@ -118,4 +166,3 @@ export function useAuth() {
 
   return helpers
 }
-
